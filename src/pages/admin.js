@@ -4,7 +4,7 @@ import Link from "next/link";
 import EditProjects from "./admin/EditProjects";
 import ViewMessages from "./admin/ViewMessages";
 import { useState } from "react";
-const AdminPanel = () => {
+const AdminPanel = (props) => {
   const [tabsValue, setTabsValue] = useState("projects");
   return (
     <div>
@@ -58,7 +58,7 @@ const AdminPanel = () => {
             tabsValue == "projects" ? "block w-full h-[90vh]" : "hidden"
           }
         >
-          <EditProjects />
+          <EditProjects projects={props.data}/>
         </div>
         <div
           className={
@@ -71,5 +71,15 @@ const AdminPanel = () => {
     </div>
   );
 };
+
+export async function getServerSideProps() {
+
+  let data = await fetch('http://localhost:3000/api/projects')
+  let projects= await data.json()
+  return {
+    props: projects,
+  }
+}
+
 
 export default AdminPanel;

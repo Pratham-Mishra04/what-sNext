@@ -1,8 +1,35 @@
 import React from "react";
 import Image from "next/image";
 import { useState } from "react";
-const ProjectCard = ({image, link, title, desp, tags}) => {
+import axios from "axios";
+
+const ProjectCard = ({img, link, title, desp, tags, id}) => {
+  console.log(id)
   const [modal, setmodal] = useState("hidden");
+
+  const [titleInp, setTitleInpt] = useState(title);
+  const [despInp, setDespInpt] = useState(desp);
+  const [thumbnail, setThumbnail] = useState(img);
+  const [linkInp, setLinkInp] = useState(link);
+  const [tagsInp, setTagsInpt] = useState(tags.join(' '));
+
+
+  const submitHandler = async () => {
+    const tagsArr = tagsInp.split(' ')
+
+    const formData = {
+      link:linkInp,
+      thumbnail,
+      description:despInp,
+      title:titleInp,
+      tags:tagsArr
+    }
+
+    const data = await axios.patch(`http://localhost:3000/api/projects/${id}`, formData);
+    console.log(data)
+
+  }
+
   return (
     <>
       <div
@@ -37,7 +64,8 @@ const ProjectCard = ({image, link, title, desp, tags}) => {
         
         focus:text-white focus:bg-lightBlack-100 focus:border-black focus:outline-none"
                   id="exampleInput7"
-                  placeholder="Name"
+                  value={titleInp}
+                  onChange={el=>{setTitleInpt(el.target.value)}}
                 />
               </div>
               <div className="form-group mb-6">{/*  */}</div>
@@ -62,7 +90,8 @@ const ProjectCard = ({image, link, title, desp, tags}) => {
       "
                   id="exampleFormControlTextarea13"
                   rows="6"
-                  placeholder="Message"
+                  value={despInp}
+                  onChange={el=>{setDespInpt(el.target.value)}}
                 ></textarea>
               </div>
               <div className="form-group mb-6 flex items center justify-around">
@@ -82,7 +111,30 @@ const ProjectCard = ({image, link, title, desp, tags}) => {
         ease-in-out
         focus:text-white focus:bg-lightBlack-100 focus:border-black focus:outline-none"
                   id="exampleInput7"
-                  placeholder="Tags"
+                  value={tagsInp}
+                  onChange={el=>{setTagsInpt(el.target.value)}}
+                />
+              </div>
+              <div className="form-group mb-6 flex items center justify-around">
+                <input
+                  type="text"
+                  className="form-control block
+        w-full
+        px-3
+        py-1.5
+        text-base
+        font-normal
+        text-white
+        bg-lightBlack-100 bg-clip-padding
+        border border-solid border-gray-300
+        rounded
+        transition
+        ease-in-out
+        
+        focus:text-white focus:bg-lightBlack-100 focus:border-black focus:outline-none"
+                  id="exampleInput7"
+                  value={linkInp}
+                  onChange={el=>{setLinkInp(el.target.value)}}
                 />
               </div>
             </div>
@@ -131,6 +183,7 @@ const ProjectCard = ({image, link, title, desp, tags}) => {
       duration-150
       ease-in-out
       "
+      onClick={submitHandler}
               >
                 Save changes
               </button>
@@ -198,8 +251,9 @@ const ProjectCard = ({image, link, title, desp, tags}) => {
               ></path>
             </svg>
           </div>
+          <a href={link}>
           <Image
-            src="/People.svg"
+            src={img?img:"/People.svg"}
             width={300}
             height={100}
             className="w-[45vw] h-[45vh]"
@@ -207,27 +261,25 @@ const ProjectCard = ({image, link, title, desp, tags}) => {
           />
           <div className="px-6 py-4">
             <div className="font-bold text-2xl mb-2 text-white">
-              The Coldest Sunset
+              {title}
             </div>
             <p className="text-gray-200 text-base">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Voluptatibus quia, nulla! Maiores et perferendis eaque,
-              exercitationem praesentium nihil.
+              {desp}
             </p>
           </div>
           <div className="px-6 pt-4 pb-2">
-            <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-              #photography
-            </span>
-            <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-              #travel
-            </span>
-            <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-              #winter
-            </span>
+            {
+              tags.map((el, index)=>{
+                return <span key={index} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                {el.replace('_', ' ')}
+              </span>
+              })
+            }
           </div>
+          </a>
         </div>
       </div>
+
     </>
   );
 };

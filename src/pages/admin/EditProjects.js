@@ -2,7 +2,9 @@ import React from "react";
 import ProjectCard from "@/components/ProjectCard/ProjectCard";
 import { useState } from "react";
 import axios from "axios";
-const EditProjects = (props) => {
+const EditProjects = ({projects}) => {
+
+  console.log(projects)
 
   const [modal, setModal] = useState("hidden");
   const [title, setTitle] = useState("");
@@ -11,23 +13,19 @@ const EditProjects = (props) => {
   const [link, setLink] = useState("");
   const [tags, setTags] = useState('');
 
-  console.log(props)
 
   const submitHandler = async () => {
     const tagsArr = tags.split(' ')
-    tagsArr.forEach(el=>{
-      el.replace('_',' ')
-    })
 
     const formData = {
       link,
       thumbnail,
       description:desp,
-      title
+      title,
+      tags:tagsArr
     }
 
     const data = await axios.post('http://localhost:3000/api/projects', formData);
-    console.log(data)
   };
   return (
     <>
@@ -211,25 +209,15 @@ const EditProjects = (props) => {
         </div>
         <div className="w-full h-[93%] flex items-center justify-around">
           <div className="border-[1px] overflow-y-scroll h-[98%] w-[98%] flex flex-wrap justify-around items-center gap-[1rem] pt-[1rem]">
-            <ProjectCard />
-            <ProjectCard />
-            <ProjectCard />
-            <ProjectCard />
-            <ProjectCard />
+          {
+              projects.map((el)=>{
+                return <ProjectCard id={el._id} key={el._id} title={el.title} desp={el.description} img={el.thumbnail} link={el.link} tags={el.tags} />
+              })
+            }
           </div>
         </div>
       </div>
     </>
   );
 };
-
-export async function getServerSideProps() {
-
-  let data = await fetch('http://localhost:3000/api/projects')
-  let projects= await data.json()
-  return {
-    props: projects,
-  }
-}
-
 export default EditProjects;

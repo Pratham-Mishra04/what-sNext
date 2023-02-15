@@ -12,7 +12,7 @@ const getProject = async (req, res) => {
   });
 };
 
-const updateProject = Protect(async (req, res) => {
+const updateProject = (async (req, res) => {
   await connectToDB();
   const project = await Project.findByIdAndUpdate(req.query.id, req.body, {
     new: true,
