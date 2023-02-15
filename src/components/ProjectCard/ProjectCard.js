@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { useState } from "react";
-const ProjectCard = () => {
+const ProjectCard = ({image, link, title, desp, tags}) => {
   const [modal, setmodal] = useState("hidden");
   return (
     <>

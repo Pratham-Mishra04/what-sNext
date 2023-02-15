@@ -1,8 +1,34 @@
 import React from "react";
 import ProjectCard from "@/components/ProjectCard/ProjectCard";
 import { useState } from "react";
-const EditProjects = () => {
+import axios from "axios";
+const EditProjects = (props) => {
+
   const [modal, setModal] = useState("hidden");
+  const [title, setTitle] = useState("");
+  const [desp, setDesp] = useState("");
+  const [thumbnail, setThumbnail] = useState("");
+  const [link, setLink] = useState("");
+  const [tags, setTags] = useState('');
+
+  console.log(props)
+
+  const submitHandler = async () => {
+    const tagsArr = tags.split(' ')
+    tagsArr.forEach(el=>{
+      el.replace('_',' ')
+    })
+
+    const formData = {
+      link,
+      thumbnail,
+      description:desp,
+      title
+    }
+
+    const data = await axios.post('http://localhost:3000/api/projects', formData);
+    console.log(data)
+  };
   return (
     <>
       <div
@@ -37,7 +63,10 @@ const EditProjects = () => {
     
     focus:text-white focus:bg-lightBlack-100 focus:border-black focus:outline-none"
                   id="exampleInput7"
-                  placeholder="Name"
+                  placeholder="Title"
+                  onChange={(el) => {
+                    setTitle(el.target.value);
+                  }}
                 />
               </div>
               <div className="form-group mb-6">{/*  */}</div>
@@ -62,7 +91,10 @@ const EditProjects = () => {
   "
                   id="exampleFormControlTextarea13"
                   rows="6"
-                  placeholder="Message"
+                  placeholder="Description"
+                  onChange={(el) => {
+                    setDesp(el.target.value);
+                  }}
                 ></textarea>
               </div>
               <div className="form-group mb-6 flex items center justify-around">
@@ -83,6 +115,32 @@ const EditProjects = () => {
     focus:text-white focus:bg-lightBlack-100 focus:border-black focus:outline-none"
                   id="exampleInput7"
                   placeholder="Tags"
+                  onChange={(el) => {
+                    setTags(el.target.value);
+                  }}
+                />
+              </div>
+              <div className="form-group mb-6 flex items center justify-around">
+                <input
+                  type="text"
+                  className="form-control block
+    w-full
+    px-3
+    py-1.5
+    text-base
+    font-normal
+    text-white
+    bg-lightBlack-100 bg-clip-padding
+    border border-solid border-gray-300
+    rounded
+    transition
+    ease-in-out
+    focus:text-white focus:bg-lightBlack-100 focus:border-black focus:outline-none"
+                  id="exampleInput7"
+                  placeholder="Link to your Project"
+                  onChange={(el) => {
+                    setLink(el.target.value);
+                  }}
                 />
               </div>
             </div>
@@ -131,8 +189,9 @@ const EditProjects = () => {
   duration-150
   ease-in-out
   "
+  onClick={submitHandler}
               >
-                Save changes
+                Add Project
               </button>
             </div>
           </div>
@@ -163,5 +222,14 @@ const EditProjects = () => {
     </>
   );
 };
+
+export async function getServerSideProps() {
+
+  let data = await fetch('http://localhost:3000/api/projects')
+  let projects= await data.json()
+  return {
+    props: projects,
+  }
+}
 
 export default EditProjects;

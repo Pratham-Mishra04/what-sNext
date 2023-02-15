@@ -1,7 +1,11 @@
 import React from "react";
 import Navbar from "@/components/Navbar/Navbar";
 import ProjectTab from "@/components/ProjectTab/ProjectTab";
-const Projects = () => {
+import { GetServerSideProps } from "next";
+
+const Projects = (props) => {
+  const projects = props.data
+  console.log(projects)
   return (
     <div className="overflow-hidden  h-screen w-screen text-white">
       <nav className="sticky z-50 top-0">
@@ -13,12 +17,26 @@ const Projects = () => {
             <p>Check out our awesome projects below !</p>
           </div>
           <div className="p-3 overflow-y-scroll gap-3">
-            <ProjectTab />
+            {
+              projects.map((el, index)=>{
+                return <ProjectTab key={index} name={el.title} desp={el.description} img={el.thumbnail} link={el.link} tags={el.tags} />
+              })
+            }
           </div>
         </div>
       </div>
     </div>
   );
 };
+
+export async function getServerSideProps() {
+
+  let data = await fetch('http://localhost:3000/api/projects')
+  let projects= await data.json()
+  return {
+    props: projects,
+  }
+}
+
 
 export default Projects;
