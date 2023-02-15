@@ -29,7 +29,7 @@ const ProjectCard = ({img, link, title, desp, tags, id}) => {
     }
 
     const data = await axios.patch(`http://localhost:3000/api/projects/${id}`, formData);
-    console.log(data)
+    // console.log(data)
 
   }
 

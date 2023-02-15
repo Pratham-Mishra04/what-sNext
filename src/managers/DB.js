@@ -12,14 +12,14 @@ const URL =
 
 export const connectToDB = async () => {
   if (mongoose.connections[0].readyState) {
-    console.log('Connected');
+    // console.log('Connected');
     return;
   }
   await mongoose.connect(URL);
-  console.log('Connected to Database!')
+  // console.log('Connected to Database!')
 };
 
 export const disconnectFromDB = async() => {
   await mongoose.disconnect();
-  console.log('Disconnected from Database.');
+  // console.log('Disconnected from Database.');
 };

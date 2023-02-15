@@ -57,12 +57,7 @@ const Navbar = () => {
             >
               Projects
             </Link>
-            <Link
-              href="/admin"
-              className="block mt-4 hover:underline lg:inline-block lg:mt-0 text-white hover:text-white"
-            >
-              Admin
-            </Link>
+            
           </div>
         </div>
       </nav>

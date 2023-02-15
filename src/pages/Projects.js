@@ -5,7 +5,7 @@ import { GetServerSideProps } from "next";
 
 const Projects = (props) => {
   const projects = props.data
-  console.log(projects)
+  // console.log(projects)
   return (
     <div className="overflow-hidden  h-screen w-screen text-white">
       <nav className="sticky z-50 top-0">

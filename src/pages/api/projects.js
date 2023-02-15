@@ -7,7 +7,7 @@ const getAllProjects = async (req, res) => {
   await connectToDB();
   const projects = await Project.find();
   await disconnectFromDB();
-  console.log("Request Mde")
+  // console.log("Request Mde")
   res.status(200).json({
     data: projects,
   });

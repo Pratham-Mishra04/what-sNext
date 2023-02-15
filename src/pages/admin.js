@@ -20,7 +20,7 @@ const AdminPanel = (props) => {
                     : "inline-block text-xl  w-full p-4 border-b-2 border-transparent  hover:text-gray-600 hover:border-discoverPink dark:hover:text-discoverPink"
                 }
               >
-                Projects
+                Home
               </Link>
             </li>
             <li class="w-2/5">
