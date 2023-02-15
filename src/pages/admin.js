@@ -58,14 +58,14 @@ const AdminPanel = (props) => {
             tabsValue == "projects" ? "block w-full h-[90vh]" : "hidden"
           }
         >
-          <EditProjects projects={props.data}/>
+          <EditProjects projects={props.projects.data}/>
         </div>
         <div
           className={
             tabsValue == "messages" ? "block w-full h-[90vh]" : "hidden"
           }
         >
-          <ViewMessages />
+          <ViewMessages messages={props.messages.data}/>
         </div>
       </div>
     </div>
@@ -74,10 +74,12 @@ const AdminPanel = (props) => {
 
 export async function getServerSideProps() {
 
-  let data = await fetch('http://localhost:3000/api/projects')
-  let projects= await data.json()
+  const data = await fetch('http://localhost:3000/api/projects')
+  const data2 = await fetch('http://localhost:3000/api/messages')
+  const projects= await data.json()
+  const messages = await data2.json()
   return {
-    props: projects,
+    props: {projects,messages},
   }
 }
 

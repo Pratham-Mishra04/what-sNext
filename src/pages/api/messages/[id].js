@@ -3,7 +3,7 @@ import Message from '@/models/messageModel';
 import { connectToDB, disconnectFromDB } from '@/managers/DB';
 import Protect from '@/utils/protect';
 
-const deleteMessage = Protect(async (req, res) => {
+const deleteMessage = (async (req, res) => {
   await connectToDB();
   await Message.findByIdAndDelete(req.query.id);
   await disconnectFromDB();

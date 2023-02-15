@@ -4,8 +4,6 @@ import { useState } from "react";
 import axios from "axios";
 const EditProjects = ({projects}) => {
 
-  console.log(projects)
-
   const [modal, setModal] = useState("hidden");
   const [title, setTitle] = useState("");
   const [desp, setDesp] = useState("");

@@ -4,7 +4,6 @@ import { useState } from "react";
 import axios from "axios";
 
 const ProjectCard = ({img, link, title, desp, tags, id}) => {
-  console.log(id)
   const [modal, setmodal] = useState("hidden");
 
   const [titleInp, setTitleInpt] = useState(title);
