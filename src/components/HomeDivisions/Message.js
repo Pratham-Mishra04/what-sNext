@@ -1,6 +1,7 @@
 import MessageForm from "@/components/MessageForm/MessageForm";
 import React from "react";
 import Image from "next/image";
+
 const Message = () => {
   return (
     <>

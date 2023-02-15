@@ -3,7 +3,7 @@ import Message from '@/models/messageModel';
 import { connectToDB, disconnectFromDB } from '@/managers/DB';
 import Protect from '@/utils/protect';
 
-const getAllProjects = async (req, res) => {
+const getAllMessages = async (req, res) => {
   await connectToDB();
   const messages = await Message.find();
   await disconnectFromDB();
@@ -12,22 +12,22 @@ const getAllProjects = async (req, res) => {
   });
 };
 
-const addProject = Protect(async (req, res) => {
+const addMessage = async (req, res) => {
   await connectToDB();
   const message = await Message.create(req.body);
   await disconnectFromDB();
   res.status(200).json({
     data: message,
   });
-});
+};
 
 const handler = async (req, res) => {
   switch (req.method) {
     case 'GET':
-      await getAllProjects(req, res);
+      await getAllMessages(req, res);
       break;
     case 'POST':
-      await addProject(req, res);
+      await addMessage(req, res);
       break;
   }
 };
