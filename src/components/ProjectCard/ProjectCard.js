@@ -12,6 +12,9 @@ const ProjectCard = ({img, link, title, desp, tags, id}) => {
   const [linkInp, setLinkInp] = useState(link);
   const [tagsInp, setTagsInpt] = useState(tags.join(' '));
 
+  const onImageChange = (event) => {
+    setThumbnail(event.target.files[0].name)
+  };
 
   const submitHandler = async () => {
     const tagsArr = tagsInp.split(' ')
@@ -21,7 +24,8 @@ const ProjectCard = ({img, link, title, desp, tags, id}) => {
       thumbnail,
       description:despInp,
       title:titleInp,
-      tags:tagsArr
+      tags:tagsArr,
+      thumbnail
     }
 
     const data = await axios.patch(`http://localhost:3000/api/projects/${id}`, formData);
@@ -134,6 +138,28 @@ const ProjectCard = ({img, link, title, desp, tags, id}) => {
                   id="exampleInput7"
                   value={linkInp}
                   onChange={el=>{setLinkInp(el.target.value)}}
+                />
+              </div>
+              <div className="form-group mb-6 flex items center justify-around">
+                <input
+                  type="file"
+                  className="form-control block
+        w-full
+        px-3
+        py-1.5
+        text-base
+        font-normal
+        text-white
+        bg-lightBlack-100 bg-clip-padding
+        border border-solid border-gray-300
+        rounded
+        transition
+        ease-in-out
+        
+        focus:text-white focus:bg-lightBlack-100 focus:border-black focus:outline-none"
+                  id="files"
+
+                  onChange={el=>{onImageChange}}
                 />
               </div>
             </div>
@@ -252,7 +278,7 @@ const ProjectCard = ({img, link, title, desp, tags, id}) => {
           </div>
           <a href={link}>
           <Image
-            src={img?img:"/People.svg"}
+            src={img?`/${img}`:"/People.svg"}
             width={300}
             height={100}
             className="w-[45vw] h-[45vh]"

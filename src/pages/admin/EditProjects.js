@@ -11,6 +11,9 @@ const EditProjects = ({projects}) => {
   const [link, setLink] = useState("");
   const [tags, setTags] = useState('');
 
+  const onImageChange = (event) => {
+    setThumbnail(event.target.files[0].name)
+  };
 
   const submitHandler = async () => {
     const tagsArr = tags.split(' ')
@@ -20,7 +23,8 @@ const EditProjects = ({projects}) => {
       thumbnail,
       description:desp,
       title,
-      tags:tagsArr
+      tags:tagsArr,
+      thumbnail
     }
 
     const data = await axios.post('http://localhost:3000/api/projects', formData);
@@ -137,6 +141,27 @@ const EditProjects = ({projects}) => {
                   onChange={(el) => {
                     setLink(el.target.value);
                   }}
+                />
+              </div>
+              <div className="form-group mb-6 flex items center justify-around">
+                <input
+                  type="file"
+                  className="form-control block
+    w-full
+    px-3
+    py-1.5
+    text-base
+    font-normal
+    text-white
+    bg-lightBlack-100 bg-clip-padding
+    border border-solid border-gray-300
+    rounded
+    transition
+    ease-in-out
+    
+    focus:text-white focus:bg-lightBlack-100 focus:border-black focus:outline-none"
+                  id="exampleInput7"
+                  onChange={onImageChange}
                 />
               </div>
             </div>
